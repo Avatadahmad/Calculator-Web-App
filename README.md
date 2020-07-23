@@ -19,5 +19,6 @@ NPM Packages
 Instructions:
 1.Clone the Calculator-Web-App project.
 2.Go to project location and run with command " npm run dev"
+3.Website will be loaded on http://localhost:3000/ 
 
 UI Sample
