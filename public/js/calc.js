@@ -14,14 +14,14 @@ const { username } = Qs.parse(location.search, {
 
 socket.emit("joinRoom", username);
 
+//display result
 socket.on("message", (message) => {
   outputMessage(message);
   chatMessages.scrollTop = chatMessages.scrollHeight;
 });
 
+// Get all numbers(keys)
 document.querySelectorAll(".num__key").forEach((el) => {
-  print("pressing number");
-
   el.onclick = () => {
     if (isNaN(parseFloat($input.value))) {
       $input.value = "0";
@@ -73,6 +73,7 @@ const opCallback = (opName) => () => {
   }
   document.querySelector(`.op__key[op=${opName}]`).classList.add("active");
 };
+// Mathematical Operations and Get all operands and operator to display on the log
 
 const evaluate = (buffer) => {
   const secondOperand = buffer.pop().value;
@@ -82,42 +83,47 @@ const evaluate = (buffer) => {
   switch (operator) {
     case "add":
       var operator_new = "+";
-      return [
-        firstOperand,
-        secondOperand,
-        operator_new,
-        firstOperand + secondOperand,
-      ];
+      var decimalValue = firstOperand + secondOperand;
+      if (decimalValue == Math.floor(decimalValue)) {
+        decimalValue = decimalValue;
+      } else {
+        decimalValue = decimalValue.toFixed(2);
+      }
+
+      return [firstOperand, secondOperand, operator_new, decimalValue];
       break;
     case "subtract":
       var operator_new = "-";
-      return [
-        firstOperand,
-        secondOperand,
-        operator_new,
-        firstOperand - secondOperand,
-      ];
+      var decimalValue = firstOperand - secondOperand;
+      if (decimalValue == Math.floor(decimalValue)) {
+        decimalValue = decimalValue;
+      } else {
+        decimalValue = decimalValue.toFixed(2);
+      }
+      return [firstOperand, secondOperand, operator_new, decimalValue];
       break;
     case "multiply":
       var operator_new = "x";
-      return [
-        firstOperand,
-        secondOperand,
-        operator_new,
-        firstOperand * secondOperand,
-      ];
+      var decimalValue = firstOperand * secondOperand;
+      if (decimalValue == Math.floor(decimalValue)) {
+        decimalValue = decimalValue;
+      } else {
+        decimalValue = decimalValue.toFixed(2);
+      }
+      return [firstOperand, secondOperand, operator_new, decimalValue];
       break;
     case "divide":
       var operator_new = "÷";
       if (secondOperand === 0) {
         return false;
       }
-      return [
-        firstOperand,
-        secondOperand,
-        operator_new,
-        (firstOperand / secondOperand).toFixed(2),
-      ];
+      var decimalValue = firstOperand / secondOperand;
+      if (decimalValue == Math.floor(decimalValue)) {
+        decimalValue = decimalValue;
+      } else {
+        decimalValue = decimalValue.toFixed(2);
+      }
+      return [firstOperand, secondOperand, operator_new, decimalValue];
       break;
     default:
       return secondOperand;
@@ -128,6 +134,7 @@ for (const opName of ["add", "subtract", "multiply", "divide", "percent"]) {
   document.querySelector(`.op__key[op=${opName}]`).onclick = opCallback(opName);
 }
 
+// After equal key is pressed
 document.querySelector(".eq__key").onclick = () => {
   if (buffer && buffer.length) {
     buffer.push({ value: parseFloat($input.value) });
@@ -169,6 +176,7 @@ document.querySelector(".dec__key").onclick = () => {
   }
 };
 
+// Display messages on the client screen(refered as chat-message because its same as chat app)
 function outputMessage(message) {
   const div = document.createElement("div");
   div.classList.add("message");

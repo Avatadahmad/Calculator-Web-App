@@ -10,16 +10,15 @@ const server = http.createServer(serverApp);
 const io = socketio(server);
 serverApp.use(express.static(path.join(__dirname, "public")));
 
-//run when client connects
-const history = [];
+//run when client connects using socket.io
+
 io.on("connection", (socket) => {
   socket.on("joinRoom", (username) => {
     const user = userJoin(socket.id, username);
   });
-
+  // Get the result on server side and display to all clients
   socket.on("message", (msg) => {
     const user = getCurrentUser(socket.id);
-
     io.emit("message", formatMessage(user.username, msg));
   });
 });
