@@ -23,3 +23,4 @@ NPM Packages
 - Clone the Calculator-Web-App project
 - Go to project location and run with command " npm run dev"
 - Website will be loaded on http://localhost:3000/
+- You can see web on https://new-calculator-log-app.herokuapp.com/
